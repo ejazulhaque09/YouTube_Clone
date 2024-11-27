@@ -1,4 +1,4 @@
-const User = require('../Modals/user')
+const User = require('../Models/user')
 const bcrypt = require('bcryptjs') 
 const jwt = require('jsonwebtoken')
 require('dotenv').config;
@@ -6,12 +6,11 @@ const secretKey = process.env.SECRET_KEY
 
 exports.signup = async (req, res) => {
     try{
-        console.log("hefe")
         const {channelName, userName, about, password, profilePic} = req.body;
         const isExist = await User.findOne({userName})
 
         if(isExist){
-            req.status(400).json({
+            res.status(400).json({
                 success: false,
                 msg: "Username Already Exists"
             })
