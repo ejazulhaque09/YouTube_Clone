@@ -8,7 +8,7 @@ exports.uploadVideo = async (req, res) => {
         await video.save();
         res.status(201).json({
             success: true,
-            data: video
+            video
         })
     }
     catch(err){
@@ -24,7 +24,7 @@ exports.getAllVideo = async (req, res) => {
         const videos = await Video.find().populate('user', 'channelName profilePic userName createdAt about')
         res.status(200).json({
             success: true,
-            data: videos
+            videos
         })
     }
     catch(err){
