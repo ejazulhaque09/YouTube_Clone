@@ -11,10 +11,11 @@ app.use(cookieParser())
 
 const authRoute = require('./Routes/user');
 const videoRoute = require('./Routes/video')
+const commentRoute = require('./Routes/comment')
 
 app.use('/auth', authRoute);
 app.use('/video', videoRoute);
-
+app.use('/comment',commentRoute)
 
 
 app.listen(port, ()=>{
