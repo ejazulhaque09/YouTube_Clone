@@ -4,6 +4,12 @@ const cookieParser = require('cookie-parser')
 require('dotenv').config();
 require('./Config/db')
 const port = process.env.PORT;
+const cors = require('cors');
+
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}))
 
 //middleware
 app.use(express.json()) // middleware to parse json
