@@ -1,14 +1,15 @@
 import Box from "@mui/material/Box";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import LinearProgress from "@mui/material/LinearProgress";
 import 'react-toastify/dist/ReactToastify.css'
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import axios from 'axios'
 const Signup = () => {
     const [uploadImageUrl, setUpLoadedImageUrl] = useState("https://th.bing.com/th/id/OIP.Wy2uo_y-ttULYs4chLmqSAAAAA?rs=1&pid=ImgDetMain")
     const [progressBar, setProgressBar] = useState(false)
+    const navigate = useNavigate();
     const [signUpField, setSignUpField] = useState({
         channelName: "",
         userName: "",
@@ -20,6 +21,19 @@ const Signup = () => {
         setSignUpField({
             ...signUpField,
             [name]: e.target.value,
+        })
+    }
+
+    const handleSignup = async () => {
+        setProgressBar(true);
+        axios.post(`http://localhost:4000/auth/signup`, signUpField, {withCredentials: true})
+        .then((res) => {
+            toast.success(res.data.message)
+            setProgressBar(false)
+            navigate('/')
+        }).catch((err) => {
+            setProgressBar(false)
+            toast.error(err)
         })
     }
     const uploadImage = async (e) => {
@@ -65,7 +79,7 @@ const Signup = () => {
                         </div>
                     </div>
                     <div className="flex items-center gap-7 justify-center w-full mt-5">
-                        <div className="px-2.5 py-2 text-lg font-medium rounded-md border text-black bg-gray-200 border-black cursor-pointer hover:bg-gray-400">SignUp</div>
+                        <div className="px-2.5 py-2 text-lg font-medium rounded-md border text-black bg-gray-200 border-black cursor-pointer hover:bg-gray-400" onClick={handleSignup}>SignUp</div>
                         <Link to={'/'} className="px-2.5 py-2 text-lg font-medium rounded-md border text-black bg-gray-200 border-black cursor-pointer hover:bg-gray-400">Home Page</Link>
                     </div>
                     {progressBar && (
