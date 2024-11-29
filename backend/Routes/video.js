@@ -10,6 +10,9 @@ router.get('/getVideoById/:videoId',videoController.getVideoById)   // get the v
 router.get('/:userId/channel',videoController.getAllVideoByUserId)  // get all the video by UserId
 router.put('/video/:id',auth,videoController.editVideo) // edit the video, only owner of the video can edit
 router.delete('/video/:id',auth,videoController.deleteVideo)    //route to delete the video by the owner only
+router.post('/video/:id/like',auth,videoController.likeVideo)    //route to like the video by the owner only
+router.post('/video/:id/dislike',auth,videoController.dislikeVideo)    //route to dislike the video by the owner only
+router.delete('/video/:id/reactions',videoController.getVideoReactions)    //route to delete the video by the owner only
 
 
 module.exports = router

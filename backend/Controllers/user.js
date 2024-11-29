@@ -61,14 +61,14 @@ exports.login = async (req, res) => {
             })
         }
         else{
-            res.status({
+            res.json({
                 success: false,
                 msg: "Invalid Credentials"
             })
         }
     }   
     catch(err){
-        res.status({
+        res.json({
             success: false,
             msg: err.message
         })
