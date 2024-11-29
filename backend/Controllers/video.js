@@ -129,3 +129,103 @@ exports.deleteVideo = async(req, res) =>{
         res.status(500).json({error: err.message})
     }   
 }
+
+
+// controller for like feature
+exports.likeVideo = async (req, res) => {
+    try {
+        const {id} = req.params;
+        console.log(id)
+    //fetching the video
+    const video = await Video.findById(id);
+    console.log(video)
+    if(!video) {
+        return res.status(404).json({success: false, msg: "Video not found"})
+    }
+    console.log(video.likes)
+    // If the user has already liked the video
+    if(video.likes.includes(req.user._id)){
+        video.likes = video.likes.filter(
+            (userId) => userId.toString() !== req.user._id.toString()
+        )
+    }  
+    else {
+        video.likes.push(req.user._id);
+        // remove the user from dislike if they previously disliked
+        video.dislikes = video.dislikes.filter(
+            (userId) => userId.toString() !== req.user._id.toString()
+        )
+    } 
+    await video.save();
+    return res.status(200).json({
+        success: true,
+        msg: "Like updated successfully",
+        likes: video.likes.length,
+        dislikes: video.dislikes.length,
+    })
+    } catch (error) {
+        return res.status(500).json({
+            error: error.message
+        })
+    }
+    
+}
+
+
+
+// controller for dislike feature
+exports.dislikeVideo = async (req, res) => {
+    try {
+        const {id} = req.params;
+    //fetching the video
+    const video = await Video.findById(id);
+    if(!video) {
+        res.status(404).json({success: false, msg: "Video not found"})
+    }
+
+    // If the user has already liked the video
+    if(video.dislikes.includes(req.user._id)){
+        video.dislikes = video.dislikes.filter(
+            (userId) => userId.toString() !== req.user._id.toString()
+        )
+    }  
+    else {
+        video.dislikes.push(req.user._id);
+        // remove the user from like if they previously liked
+        video.likes = video.likes.filter(
+            (userId) => userId.toString() !== req.user._id.toString()
+        )
+    } 
+    await video.save();
+    res.status(200).json({
+        success: true,
+        msg: "dislike updated successfully",
+        likes: video.likes.length,
+        dislikes: video.dislikes.length
+    })
+    } catch (error) {
+        res.status(500).json({
+            error: error.message
+        })
+    }   
+}
+
+exports.getVideoReactions = async (req, res) => {
+    try {
+        const {videoId} = req.params;
+
+        const video = await Video.findById(videoId)
+    if(!video) {
+        return res.status(404).json({
+            err: "Video not found"
+        })
+    }
+    res.status(200).json({
+        success: true,
+        likes: video.likes.length,
+        dislikes: video.dislikes.length,
+    })
+    } catch (error) {
+        res.status(500).json({err: error.message});
+    }
+}
