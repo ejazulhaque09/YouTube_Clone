@@ -15,11 +15,12 @@ function App() {
   const setSideNavbarfun = (value) => {
     setSideNavbar(value)
   }
+  const [search, setSearch] = useState('');
   return (
     <div className="App">
-      <Navbar setSideNavbarFunc = {setSideNavbarfun} sideNavbar={sideNavbar}/>
+      <Navbar setSideNavbarFunc = {setSideNavbarfun} sideNavbar={sideNavbar} setSearch = {setSearch} />
       <Routes>
-        <Route path='/' element={<Home sideNavbar={sideNavbar}/>}/>
+        <Route path='/' element={<Home sideNavbar={sideNavbar} search = {search} />}/>
         <Route path='/watch/:id' element={<Video sideNavbar={sideNavbar}/>}/>
         <Route path='/user/:id' element={<Profile sideNavbar={sideNavbar}/>}/>
         <Route path='/:id/upload' element={<VideoUpload/>}/>
