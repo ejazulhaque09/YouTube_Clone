@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import SideNavbar from "../components/SideNavbar";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 const Profile = ({ sideNavBar }) => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [data, setData] = useState([]);
   const [user, setUser] = useState(null);
-  const [menuOpen, setMenuOpen] = useState(null);
   const fetchProfileData = async () => {
     axios
       .get(`http://localhost:4000/video/${id}/channel`)
@@ -27,20 +26,23 @@ const Profile = ({ sideNavBar }) => {
     fetchProfileData();
   }, []);
   const handlEdit = (videoId) => {
-    navigate(`//${videoId}/edit`);
+    navigate(`/${videoId}/edit`);
   };
   const handleDelete = async (videoId) => {
+    const comfirmDelete = window.confirm("Are you sure want to delete the Video")
+    if(!comfirmDelete) {
+      
+      return;
+    }
     try {
       await axios.delete(`http://localhost:4000/video/video/${videoId}`, {
         withCredentials: true,
       });
-      setData(data.filter((video) => video._id !== video));
+      toast.info("Video Deleted successfully");
+      setData(data.filter((video) => video._id !== videoId));
     } catch (err) {
       console.log(err);
     }
-  };
-  const toggleMenu = (index) => {
-    setMenuOpen(menuOpen === index ? null : index);
   };
   return (
     <div className="flex w-full p-2.5 box-border bg-white text-black">
@@ -58,7 +60,7 @@ const Profile = ({ sideNavBar }) => {
             <img
               src={user?.profilePic}
               alt="profilePic"
-              className="w-full h-full px-2.5"
+              className="w-full h-full rounded-full px-2.5"
             />
           </div>
           <div className="flex flex-col gap-2 w-[85%] px-2.5">
@@ -71,7 +73,7 @@ const Profile = ({ sideNavBar }) => {
           </div>
         </div>
         <div className="profile_videos w-full">
-          <div className="text-lg pb-2.5 text-gray-300 font-medium flex items-center border-b border-gray-600">
+          <div className="text-lg pb-2.5 text-gray-900 font-medium flex items-center border-b border-gray-600">
             Videos &nbsp; <ArrowRightIcon />
           </div>
           <div className="flex gap-2.5 h-screen flex-wrap mt-5">
@@ -81,32 +83,31 @@ const Profile = ({ sideNavBar }) => {
                   <Link to={`/watch/${item._id}`} className="w-[210px] text-black cursor-pointer no-underline">
                     <div className="w-full h-[140px]">
                       <img
-                        src="img.jpg"
+                        src={item?.thumbnail}
                         alt="thumbnail"
-                        className="w-full h-full"
+                        className="w-full h-full rounded-sm"
                       />
                     </div>
                     <div className="flex flex-col w-full">
                       <div className="w-full text-base font-semibold">
-                        Title
+                        {item?.title}
                       </div>
-                      <div className="text-sm text-gray-400">
-                        Created at 12-02-2024
+                      <div className="text-sm text-gray-600">
+                         {item?.createdAt.slice(0,10)}
                       </div>
                     </div>
                   </Link>
                   <div className="profileVideo_block_menu">
-                    <MoreVertIcon onClick={() => toggleMenu(index)} />
-                    {/* Static data */}
+                    
                     <div className="profileVideo_block_menu_options">
                       <button
-                        className="profileVideo_block_menu_option"
+                       className="border border-black cursor-pointer rounded-md bg-gray-200 hover:bg-gray-400 mx-2 px-2"
                         onClick={() => handlEdit(item?._id)}
                       >
                         Edit
                       </button>
                       <button
-                        className="profileVideo_block_menu_option"
+                        className="border border-black cursor-pointer rounded-md bg-gray-200 hover:bg-gray-400 mx-2 px-2"
                         onClick={() => handleDelete(item?._id)}
                       >
                         Delete
@@ -119,6 +120,7 @@ const Profile = ({ sideNavBar }) => {
           </div>
         </div>
       </div>
+      <ToastContainer/>
     </div>
   );
 };
