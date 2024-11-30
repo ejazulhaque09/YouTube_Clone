@@ -46,7 +46,7 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar }) => {
       setTimeout(() => {
         navigate("/");
         window.location.reload();
-      }, 2000);
+      }, 1000);
     }
   };
 
@@ -64,7 +64,8 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar }) => {
   useEffect(() => {
     let profilePic = localStorage.getItem("userProfilePic");
     setIsLoggedIn(localStorage.getItem("userId") !== null ? true : false);
-    if (profilePic !== null) {
+    if (profilePic) {
+      console.log(profilePic)
       setUserPic(profilePic);
     }
   }, []);

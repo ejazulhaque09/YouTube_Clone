@@ -15,6 +15,8 @@ const Video = () => {
   const [editCommentId, setEditCommentId] = useState(null);
   const [editMessage, setEditMessage] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
+  const [likes, setLikes] = useState(0);
+  const [dislikes, setdisLikes] = useState(0);
 
   const fetchVideoById = async () => {
     await axios
@@ -29,6 +31,36 @@ const Video = () => {
         console.log(err);
       });
   };
+
+  const handleLike = async () => {
+    try {
+      await axios.post(`http://localhost:4000/video/video/${id}/like`,{},{withCredentials: true})
+    } catch (error) {
+      toast.error("Unable to like")
+    }
+  }
+  const handleDislike = async () => {
+    try {
+      await axios.post(`http://localhost:4000/video/video/${id}/dislike`,{},{withCredentials: true})
+      
+    } catch (error) {
+      toast.error("Unable to like")
+    }
+  }
+
+  const handleReaction = async ()=> {
+    try {
+      await axios.get(`http://localhost:4000/video/video/${id}/reactions`)
+      .then((res) => {
+        console.log(res.data.likes)
+        console.log(res.data.dislikes)
+        setLikes(res.data.likes)
+        setdisLikes(res.data.dislikes)
+      })
+    } catch (error) {
+      
+    }
+  }
 
   const getCommentByVideoId = async () => {
     await axios
@@ -90,6 +122,7 @@ const Video = () => {
  useEffect(() =>{
   fetchVideoById()
   getCommentByVideoId();
+  handleReaction();
  },[])
 
   return (
@@ -141,13 +174,13 @@ const Video = () => {
 
               <div className="flex gap-2.5 bg-gray-600/20 justify-center items-center py-2.5 px-2.5 rounded-full cursor-pointer">
                 <div className="flex gap-2.5 hover:text-gray-600">
-                  <ThumbUpOutlinedIcon />
-                  <div className="font-medium">{data?.like}</div>
+                  <ThumbUpOutlinedIcon onClick={handleLike}/>
+                  <div className="font-medium">{likes}</div>
                 </div>
                 <div className="youtubevideoDivider"></div>
                 <div className="flex gap-2.5 hover:text-gray-600">
-                  <div className="font-medium">{data?.dislike}</div>
-                  <ThumbDownAltOutlinedIcon />
+                  <ThumbDownAltOutlinedIcon onClick={handleDislike} />
+                  <div className="font-medium">{dislikes}</div>
                 </div>
                 <div className="flex ml-4 mr-2 hover:text-gray-600">
                   <ReplyIcon sx={{ fontSize: "30px" }} />
@@ -223,7 +256,7 @@ const Video = () => {
                       <div className="mt-2.5">{item.message}</div>
                     )}
                     <div className="commentActions flex gap-2 mt-2">
-                      <button
+                      <button className="border border-black cursor-pointer rounded-md bg-gray-200 hover:bg-gray-400 mx-2 px-2" 
                         onClick={()=>{
                           setEditCommentId(item._id);
                           setEditMessage(item.message);
@@ -232,7 +265,7 @@ const Video = () => {
                       >
                         Edit
                       </button>
-                      <button onClick={() => handleDeleteComment(item._id)}>
+                      <button onClick={() => handleDeleteComment(item._id)} className="border border-black cursor-pointer rounded-md bg-gray-200 hover:bg-gray-400 mx-2 px-2">
                         Delete
                       </button>
                     </div>

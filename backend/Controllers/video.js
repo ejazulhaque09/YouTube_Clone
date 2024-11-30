@@ -113,6 +113,7 @@ exports.editVideo = async (req, res) =>{
 exports.deleteVideo = async(req, res) =>{
     try{
         const {id} = req.params
+        console.log(id)
         const video = await Video.findById(id);
         if(!video){
             return res.status(404).json({error: "Video not found"})
@@ -135,14 +136,14 @@ exports.deleteVideo = async(req, res) =>{
 exports.likeVideo = async (req, res) => {
     try {
         const {id} = req.params;
-        console.log(id)
+
     //fetching the video
     const video = await Video.findById(id);
-    console.log(video)
+
     if(!video) {
         return res.status(404).json({success: false, msg: "Video not found"})
     }
-    console.log(video.likes)
+
     // If the user has already liked the video
     if(video.likes.includes(req.user._id)){
         video.likes = video.likes.filter(
@@ -212,9 +213,9 @@ exports.dislikeVideo = async (req, res) => {
 
 exports.getVideoReactions = async (req, res) => {
     try {
-        const {videoId} = req.params;
+        const {id} = req.params;
 
-        const video = await Video.findById(videoId)
+        const video = await Video.findById(id)
     if(!video) {
         return res.status(404).json({
             err: "Video not found"

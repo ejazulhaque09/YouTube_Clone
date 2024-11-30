@@ -59,7 +59,8 @@ const VideoUpload = () => {
       axios
         .get(`http://localhost:4000/video/getVideoById/${videoId}`)
         .then((res) => {
-          const video = res.data.video;
+          console.log(res.data.data)
+          const video = res.data.data;
           setInputField({
             title: video.title,
             description: video.description,
@@ -83,6 +84,7 @@ const VideoUpload = () => {
             withCredentials: true,
           })
           .then((res) => {
+            console.log(res);
             setLoader(false);
             navigate("/");
             toast.success("Updated Successfully");
@@ -114,7 +116,7 @@ const VideoUpload = () => {
       <div className="h-auto w-[45%] rounded-md mt-5 shadow-md shadow-black p-6">
         <div className="flex w-full justify-center items-center text-[28px]">
           <YouTubeIcon sx={{ fontSize: "54px", color: "red" }} />
-          Upload Video
+          {videoId ? "Update": "Upload"} Video
         </div>
         <div className="flex flex-col gap-7 mt-7 items-center">
           <input
@@ -169,8 +171,8 @@ const VideoUpload = () => {
           )}
         </div>
         <div className="flex gap-7 justify-center mt-7">
-          <div onClick={handleSubmitFunc} className="px-5 py-2.5 border text-[18px] font-medium rounded-md text-black bg-gray-200 border-black cursor-pointer hover:bg-gray-400">
-            Upload
+          <div onClick={()=>handleSubmitFunc(videoId ? "update": "upload")} className="px-5 py-2.5 border text-[18px] font-medium rounded-md text-black bg-gray-200 border-black cursor-pointer hover:bg-gray-400">
+            {videoId ? "update": "upload"}
           </div>
           <Link
             to={"/"}
