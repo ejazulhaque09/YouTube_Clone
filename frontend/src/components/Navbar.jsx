@@ -11,7 +11,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 // import './Navbar.css'
 
-const Navbar = ({ setSideNavbarFunc, sideNavbar }) => {
+const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
   const [userPic, setUserPic] = useState(
     "https://tse1.mm.bing.net/th?id=OIP.Nykv6l7QXIo0lDbQvybBqQAAAA&pid=Api&P=0&h=180"
   );
@@ -93,8 +93,11 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar }) => {
           <input
             type="text"
             placeholder="Search"
+            onChange={(e) => setSearch(e.target.value)}
             className="w-full h-10 rounded-l-full border border-gray-300 bg-white text-black px-4 focus:outline-none placeholder:text-gray-400 text-base"
           />
+          {/* {console.log(search)} */}
+          {console.log(setSearch)}
           <div className="w-16 h-10 flex items-center justify-center bg-gray-100 border border-gray-300 rounded-r-full cursor-pointer hover:bg-gray-300">
             <SearchIcon sx={{ fontSize: "29px", color: "black" }} />
           </div>

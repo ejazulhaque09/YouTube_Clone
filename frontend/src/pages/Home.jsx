@@ -3,11 +3,11 @@ import SideNavbar from "../components/SideNavbar";
 import Homepage from "../components/Homepage";
 
 
-const Home = ({sideNavbar}) => {
+const Home = ({sideNavbar, search}) => {
     return(
         <div className="home">
             <SideNavbar sideNavbar={sideNavbar}/>
-            <Homepage sideNavbar={sideNavbar}/>
+            <Homepage sideNavbar={sideNavbar} search={search}/>
         </div>
     )
 }

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const Homepage = ({ sideNavbar }) => {
+const Homepage = ({ sideNavbar, search }) => {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]); // data after filtering
+  const [selectedCategory, setSelectedCategory] = useState('All') // Current Selected
 
   useEffect(() => {
     axios
@@ -11,21 +13,34 @@ const Homepage = ({ sideNavbar }) => {
       .then((res) => {
         console.log(res.data.videos);
         setData(res.data.videos);
+        setFilteredData(res.data.videos);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+  useEffect(() =>{
+    let filtered = data
+    if(selectedCategory !== "All"){
+      filtered = data.filter((video) => video.category.includes(selectedCategory));
+  }
+    if(search.trim()){
+      filtered = filtered.filter((video) => 
+        video.title.toLowerCase().includes(search.toLowerCase())
+      )
+    }
+    setFilteredData(filtered)
+},[selectedCategory, data, search])
   const options = [
     "All",
-    "Twenty20 Cricket",
-    "Music",
-    "Live",
-    "Mixes",
+    "Data Structures",
+    "Algorithms",
+    "Podcasts",
+    "Study Skills",
+    "Quantum",
+    "Software Engineering",
     "Gaming",
-    "Debates",
-    "Coke Studio",
-    "Comedy",
+    "Dramedy",
     "Programming",
   ];
   return (
@@ -41,7 +56,8 @@ const Homepage = ({ sideNavbar }) => {
           return (
             <div
               key={index}
-              className="flex-shrink-0 flex-col basis-auto flex-grow-0 h-[30px] px-[10px] bg-gray-300 text-black font-semibold rounded-md flex justify-center items-center cursor-pointer"
+              className={`flex-shrink-0 flex-col basis-auto flex-grow-0 h-[30px] px-[10px] bg-gray-200 text-black font-semibold rounded-md flex justify-center items-center cursor-pointer ${selectedCategory === item ? "bg-gray-800 text-white":"" }`}
+              onClick={() => setSelectedCategory(item)}
             >
               {item}
             </div>
@@ -50,7 +66,7 @@ const Homepage = ({ sideNavbar }) => {
       </div>
 
       <div className="grid ml-10 bg-white box-border gap-[10px] grid-cols-[384px_384px_384px] pt-[90px] pb-[20px] h-screen">
-        {data?.map((item, index) => {
+        {filteredData?.map((item, index) => {
           return (
             <Link
               to={`/watch/${item._id}`}
