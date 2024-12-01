@@ -8,11 +8,12 @@ import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 
 const Video = () => {
-  const [message, setMessage] = useState("");
-  const [data, setData] = useState("");
-  const { id } = useParams();
+
+  const [message, setMessage] = useState(""); //new comment message
+  const [data, setData] = useState(""); //Video data
+  const { id } = useParams(); 
   const [comments, setComments] = useState([]);
-  const [editCommentId, setEditCommentId] = useState(null);
+  const [editCommentId, setEditCommentId] = useState(null);  // id of the comment being edited
   const [editMessage, setEditMessage] = useState("");
   const [videoUrl, setVideoUrl] = useState("");
   const [likes, setLikes] = useState(0);
@@ -22,16 +23,16 @@ const Video = () => {
     await axios
       .get(`http://localhost:4000/video/getVideoById/${id}`)
       .then((res) => {
-        setData(res.data.data);
+        setData(res.data.data); // set video data
         console.log(data)
         console.log(res.data.data.videoLink)
-        setVideoUrl(res.data.data.videoLink);
-      })
+        setVideoUrl(res.data.data.videoLink); // set video url
+      }) 
       .catch((err) => {
         console.log(err);
       });
   };
-
+  //handle like
   const handleLike = async () => {
     try {
       await axios.post(`http://localhost:4000/video/video/${id}/like`,{},{withCredentials: true})
@@ -39,6 +40,7 @@ const Video = () => {
       toast.error("Unable to like")
     }
   }
+  // handle dislike
   const handleDislike = async () => {
     try {
       await axios.post(`http://localhost:4000/video/video/${id}/dislike`,{},{withCredentials: true})
@@ -48,6 +50,7 @@ const Video = () => {
     }
   }
 
+    // fetch reaction count
   const handleReaction = async ()=> {
     try {
       await axios.get(`http://localhost:4000/video/video/${id}/reactions`)
@@ -91,6 +94,7 @@ const Video = () => {
       });
   };
 
+  // handle edi comment
   const handleEditComment = async () => {
     try {
       const res = await axios.put(
@@ -111,6 +115,7 @@ const Video = () => {
     }
   };
 
+    // handle delete comment
   const handleDeleteComment = async (commentId) => {
     try {
       await axios.delete(`http://localhost:4000/comment/comment/${commentId}`);
@@ -123,10 +128,10 @@ const Video = () => {
   fetchVideoById()
   getCommentByVideoId();
   handleReaction();
- },[])
+ },[likes, dislikes])
 
   return (
-    <div className="bg-white mt-[56px] flex text-black py-8 ml-2 justify-center">
+    <div className="bg-white mt-[56px] flex text-black py-8 ml-2 justify-center flex-col md:flex-row">
       <div className="w-full max-w-[875px] flex flex-col">
         <div className="w-full">
           {console.log(data)}
@@ -146,7 +151,7 @@ const Video = () => {
         <div className="flex flex-col mt-5">
           <div className="text-[20px] font-bold">{data?.title}</div>
           <div className="flex flex-col justify-between mt-2.5">
-            <div className="flex  justify-between gap-4">
+            <div className="flex flex-col md:flex-row justify-between gap-4">
               <div className="flex flex-row justify-between gap-5">
                 <Link
                   to={`/user/${data?.user?._id}`}
@@ -155,7 +160,7 @@ const Video = () => {
                   <img
                     src={data?.user?.profilePic}
                     alt="img.jpg"
-                    className="w-full rounded-full"
+                    className="w-full h-full rounded-full"
                   />
                 </Link>
                 <div className="flex flex-col">
@@ -225,7 +230,7 @@ const Video = () => {
             </div>
             <div className="flex flex-col gap-2.5 mt-5">
               {comments.map((item) => (
-                <div className="flex mt-2.5 gap-2.5" key={item._id}>
+                <div className="flex mt-2.5 gap-2.5 border-b-4 pb-4" key={item._id}>
                   <img
                     src={item?.user?.profilePic}
                     alt="profilePic"

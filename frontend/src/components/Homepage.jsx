@@ -3,15 +3,16 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 const Homepage = ({ sideNavbar, search }) => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([]);  // holds all video data
   const [filteredData, setFilteredData] = useState([]); // data after filtering
   const [selectedCategory, setSelectedCategory] = useState('All') // Current Selected
 
+  //fetch the data from video on component mount
   useEffect(() => {
     axios
       .get("http://localhost:4000/video/allVideo")
       .then((res) => {
-        console.log(res.data.videos);
+        console.log(res.data);
         setData(res.data.videos);
         setFilteredData(res.data.videos);
       })
@@ -19,18 +20,23 @@ const Homepage = ({ sideNavbar, search }) => {
         console.log(err);
       });
   }, []);
+
+  // filtering data based on selected category and search query
   useEffect(() =>{
     let filtered = data
+    //filter by category
     if(selectedCategory !== "All"){
       filtered = data.filter((video) => video.category.includes(selectedCategory));
   }
     if(search.trim()){
+      // filter by search
       filtered = filtered.filter((video) => 
         video.title.toLowerCase().includes(search.toLowerCase())
       )
     }
     setFilteredData(filtered)
-},[selectedCategory, data, search])
+    console.log(filtered)
+},[selectedCategory, data, search])   
   const options = [
     "All",
     "Data Structures",
@@ -40,7 +46,6 @@ const Homepage = ({ sideNavbar, search }) => {
     "Quantum",
     "Software Engineering",
     "Gaming",
-    "Dramedy",
     "Programming",
   ];
   return (
@@ -65,10 +70,11 @@ const Homepage = ({ sideNavbar, search }) => {
         })}
       </div>
 
-      <div className="grid ml-10 bg-white box-border gap-[10px] grid-cols-[384px_384px_384px] pt-[90px] pb-[20px] h-screen">
+      <div className="grid ml-10 bg-white box-border gap-[10px] grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 pt-[90px] pb-[20px] h-screen">
         {filteredData?.map((item, index) => {
           return (
             <Link
+            key={index}
               to={`/watch/${item._id}`}
               className="flex flex-col box-border cursor-pointer h-[216px] text-black no-underline"
             >
@@ -79,7 +85,7 @@ const Homepage = ({ sideNavbar, search }) => {
                   className="w-full h-full rounded-md"
                 />
                 <div className="absolute bottom-0 right-0 px-1 py-0.5 bg-gray-500 rounded-sm text-white">
-                  34.10
+                  {((item.time)/60).toString().slice(0,4)}
                 </div>
               </div>
               <div className="flex pt-2.5">
@@ -87,13 +93,14 @@ const Homepage = ({ sideNavbar, search }) => {
                   <img
                     src={item?.user?.profilePic}
                     alt="profile"
-                    className="w-4/5 rounded-full"
+                    className="w-10 h-10 rounded-full"
                   />
                 </div>
-                <div className="flex flex-col w-full p-1.5 box-border">
+                <div className="flex flex-col w-full pt-1.5 box-border">
                   <div className="font-semibold text-lg">{item?.title}</div>
                   <div className="text-lg text-gray-500 mt-1 ">{item?.user?.channelName}</div>
-                  <div className="text-sm text-gray-500 ">Likes {item?.like}</div>
+                  {console.log(item?.user)}
+                  <div className="text-sm text-gray-500 ">23k views</div>
                 </div>
               </div>
             </Link>

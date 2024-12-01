@@ -12,6 +12,7 @@ import axios from "axios";
 // import './Navbar.css'
 
 const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
+  // store user profile pic
   const [userPic, setUserPic] = useState(
     "https://tse1.mm.bing.net/th?id=OIP.Nykv6l7QXIo0lDbQvybBqQAAAA&pid=Api&P=0&h=180"
   );
@@ -20,6 +21,7 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
+  // toggle the modal
   const handleClickModal = () => {
     setNavbarModal((prev) => !prev);
   };
@@ -27,6 +29,7 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
     setSideNavbarFunc(!sideNavbar);
   };
 
+  //navigate to user's profile page
   let userId = localStorage.getItem("userId");
   const handleProfile = () => {
     console.log(userId);
@@ -50,6 +53,7 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
     }
   };
 
+  // handle logout 
   const getLogoutFunc = async () => {
     axios
       .post("http://localhost:4000/auth/logout", {}, { withCredentials: true })
@@ -62,7 +66,7 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
   };
 
   useEffect(() => {
-    let profilePic = localStorage.getItem("userProfilePic");
+    let profilePic = localStorage.getItem("profilePic");
     setIsLoggedIn(localStorage.getItem("userId") !== null ? true : false);
     if (profilePic) {
       console.log(profilePic)
@@ -84,11 +88,11 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
           className="flex items-center gap-2 text-black no-underline"
         >
           <YouTubeIcon sx={{ fontSize: "34px" }} className="text-red-500" />
-          <div className="text-xl font-semibold font-sans">Youtube</div>
+          <div className="hidden sm:block text-xl font-semibold font-sans">Youtube</div>
         </Link>
       </div>
 
-      <div className="flex gap-2 w-1/2">
+      <div className="hidden md:flex gap-2 w-1/2">
         <div className="flex w-4/5">
           <input
             type="text"
@@ -106,7 +110,7 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
           <KeyboardVoiceIcon sx={{ color: "black " }} />
         </div>
       </div>
-      <div className="right flex gap-5 items-center relative">
+      <div className="right flex gap-3 sm:gap-5 items-center relative">
         {console.log(userId)}
         <Link to={`/${userId}/upload`}>
           <VideoCallIcon

@@ -3,9 +3,9 @@ const user = require('../Models/user')
 
 exports.uploadVideo = async (req, res) => {
     try{
-        const {title, description, videoLink, category, thumbnail} = req.body;
+        const {title, description, videoLink, category, thumbnail, time} = req.body;
         // creates a new video with logged in users id
-        const video = new Video({user: req.user._id, title, description, videoLink, category, thumbnail})
+        const video = new Video({user: req.user._id, title, description, videoLink, category, thumbnail, time})
         await video.save();
         res.status(201).json({
             success: true,
@@ -24,7 +24,8 @@ exports.getAllVideo = async (req, res) => {
     try{
 
         // fetch all the videos 
-        const videos = await Video.find().populate('user', 'channelName profilePic userName createdAt about')
+        const videos = await Video.find().populate('user', 'channelName profilePic email createdAt about')
+        console.log(videos)
         res.status(200).json({
             success: true,
             videos
@@ -43,7 +44,7 @@ exports.getAllVideoByUserId = async (req, res) => {
     try{
         let {userId} = req.params;
         //fetch videos uploaded by the specific user
-        const video = await Video.find({user: userId}).populate('user', 'channelName profilePic userName createdAt about')
+        const video = await Video.find({user: userId}).populate('user', 'channelName profilePic email createdAt about')
 
         //fetch user details without the password
         const loggedInUser = await user.findById(userId).select('-password');
@@ -65,7 +66,7 @@ exports.getAllVideoByUserId = async (req, res) => {
 exports.getVideoById = async (req, res) => {
     try{
         let {videoId} = req.params;
-        const video = await Video.findById(videoId).populate('user', 'channelName profilePic userName createdAt about')
+        const video = await Video.findById(videoId).populate('user', 'channelName profilePic email createdAt about')
         res.status(200).json({
             success: true,
             data: video
@@ -80,7 +81,7 @@ exports.getVideoById = async (req, res) => {
 }
 exports.editVideo = async (req, res) =>{
     const {id} = req.params;
-    const {title, description, videoLink, category, thumbnail} = req.body;
+    const {title, description, videoLink, category, thumbnail, time} = req.body;
 
     console.log(id)
     try{
@@ -99,6 +100,7 @@ exports.editVideo = async (req, res) =>{
         video.videoLink = videoLink || video.videoLink;
         video.category = category || video.category;
         video.thumbnail = thumbnail || video.thumbnail;
+        video.time = time || video.time;
 
         await video.save();
         res.status(200).json({success: true, video})

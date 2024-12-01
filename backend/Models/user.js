@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    userName:{
+    email:{
         type: String,
         required: true,
         unique: true
@@ -19,8 +19,7 @@ const userSchema = new mongoose.Schema({
         required: true
     },
     profilePic:{
-        type: String,
-        required: true
+        type: String
     },
 }, {timestamps: true})
 
