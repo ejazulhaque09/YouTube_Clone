@@ -29,7 +29,7 @@ exports.getCommentByVideoId = async (req, res) => {
     let { videoId } = req.params;  // extract id from request parameters
     const comment = await Comment.find({ video: videoId }).populate(     
       "user",
-      "channelName profilePic userName createdAt about"
+      "channelName profilePic email createdAt about"
     );
     res.status(200).json({
       msg: true,
@@ -50,7 +50,7 @@ exports.editComment = async (req, res) => {
   try {
     const comment = await Comment.findById(videoId).populate(   // populate user details
       "user",
-      "channelName profilePic userName createdAt about"
+      "channelName profilePic email createdAt about"
     );
     if (!comment) {
       return res.status(404).json({
@@ -76,7 +76,7 @@ exports.deleteComment = async (req, res) => {
   try {
     const comment = await Comment.findById(videoId).populate(
       "user",
-      "channelName profilePic userName createdAt about"
+      "channelName profilePic email createdAt about"
     );
     if (!comment) {
       return res.status(404).json({

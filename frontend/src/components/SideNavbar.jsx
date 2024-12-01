@@ -13,7 +13,8 @@ import ContentCutIcon from "@mui/icons-material/ContentCut"
 import WatchLaterOutlinedIcon from "@mui/icons-material/WatchLaterOutlined"
 const SideNavbar = ({sideNavbar}) => {
     return(
-        <div className={sideNavbar ? "flex flex-col fixed top-[55px] z-10 left-0 h-[92vh] w-[250px] p-4 bg-white text-black overflow-y-auto box-border" : "hidden"} >
+        // conditional display of sidenavbar
+        <div className={sideNavbar ? " sm:block flex flex-col fixed top-[55px] z-10 left-0 h-[92vh] w-[250px] sm:w-[200px] md:w-[250px] p-4 bg-white text-black overflow-y-auto box-border" : "hidden"} >
             <div className="flex flex-col border-b border-gray-600 pb-2">
                 <Link to={'/'} className={`flex items-center gap-5 p-2.5 rounded-lg cursor-pointer hover:bg-gray-300`}>
                     <HomeIcon/>

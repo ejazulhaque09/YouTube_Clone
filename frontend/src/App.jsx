@@ -11,7 +11,9 @@ import Signup from './pages/Signup'
 import { useState } from 'react'
 
 function App() {
+  // state to manage the visibility of the side navbar
   const [sideNavbar, setSideNavbar] = useState(false)
+  //function to update the side navbar
   const setSideNavbarfun = (value) => {
     setSideNavbar(value)
   }
@@ -20,6 +22,7 @@ function App() {
     <div className="App">
       <Navbar setSideNavbarFunc = {setSideNavbarfun} sideNavbar={sideNavbar} setSearch = {setSearch} />
       <Routes>
+        {/* Routes to define the application navigation */}
         <Route path='/' element={<Home sideNavbar={sideNavbar} search = {search} />}/>
         <Route path='/watch/:id' element={<Video sideNavbar={sideNavbar}/>}/>
         <Route path='/user/:id' element={<Profile sideNavbar={sideNavbar}/>}/>

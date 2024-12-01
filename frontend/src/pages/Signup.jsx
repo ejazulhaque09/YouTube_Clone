@@ -7,16 +7,18 @@ import 'react-toastify/dist/ReactToastify.css'
 import { toast, ToastContainer } from "react-toastify";
 import axios from 'axios'
 const Signup = () => {
+    //state management for profile pic
     const [uploadImageUrl, setUpLoadedImageUrl] = useState("https://th.bing.com/th/id/OIP.Wy2uo_y-ttULYs4chLmqSAAAAA?rs=1&pid=ImgDetMain")
     const [progressBar, setProgressBar] = useState(false)
     const navigate = useNavigate();
     const [signUpField, setSignUpField] = useState({
         channelName: "",
-        userName: "",
+        email: "",
         password: "",
         about: "",
         profilePic: uploadImageUrl
     })
+    // handle imput changes
     const handleInputField = (e, name) =>{
         setSignUpField({
             ...signUpField,
@@ -24,18 +26,32 @@ const Signup = () => {
         })
     }
 
+    //handle form submission
     const handleSignup = async () => {
+        if(!signUpField.channelName || !signUpField.email || !signUpField.password || !signUpField.about ){
+            toast.error("All fields are required")
+        }
+        // validate email format
+        const isValidEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g;
+        if(!isValidEmail.test(signUpField.email)){
+            return toast.error("Please enter a valid email address")
+        }
         setProgressBar(true);
+        // send post request to ceate new user
         axios.post(`http://localhost:4000/auth/signup`, signUpField, {withCredentials: true})
         .then((res) => {
-            toast.success(res.data.message)
+            toast.success("Registered Successfully")
             setProgressBar(false)
-            navigate('/')
+            setTimeout(() => {
+                navigate('/')
+            }, 2000);
         }).catch((err) => {
             setProgressBar(false)
             toast.error(err)
         })
     }
+
+    //handle profile image to cloudinary
     const uploadImage = async (e) => {
         console.log("uploading");
         const files = e.target.files;
@@ -61,21 +77,21 @@ const Signup = () => {
     }
 
     return(
-        <div className="mt-[56px] text-black w-full flex flex-col items-center h-screen bg-white">
+        <div className="mt-[56px] text-black w-full flex flex-col items-center sm:px-4 lg:px-20 h-screen bg-white">
             <div className="w-[2/5] border p-4 mt-7 flex flex-col items-center justify-center shadow-md shadow-black">
                 <div className="flex gap-5 w-full justify-center items-center font-light text-2xl">
                     <YouTubeIcon sx={{fontSize: "54px", color:"red"}}/>
                     SignUp
                 </div>
                 <div className="flex flex-col gap-5 w-full items-center mt-7">
+                    <input type="email" required value={signUpField.email} onChange={(e) => {handleInputField(e, 'email')}} className="w-3/5 h-11 text-black px-2.5 bg-gray-200 rounded-md border-none placeholder:text-gray-600" placeholder="Email" />
                     <input type="text" value={signUpField.channelName} onChange={(e) => {handleInputField(e, 'channelName')}} className="w-3/5 h-11 text-black px-2.5 bg-gray-200  rounded-md placeholder:text-gray-600" placeholder="Channel Name" />
-                    <input type="text" value={signUpField.userName} onChange={(e) => {handleInputField(e, 'userName')}} className="w-3/5 h-11 text-black px-2.5 bg-gray-200 rounded-md border-none placeholder:text-gray-600" placeholder="User Name" />
                     <input type="password" value={signUpField.password} onChange={(e) => {handleInputField(e, 'password')}} className=" w-3/5 h-11 text-black px-2.5 bg-gray-200 rounded-md border-none placeholder:text-gray-600" placeholder="Password" />
                     <input type="text" value={signUpField.about} onChange={(e) => {handleInputField(e, 'about')}} className="w-3/5 h-11 text-black px-2.5 bg-gray-200 rounded-md border-none placeholder:text-gray-600" placeholder="About your channel" />
                     <div className="flex gap-7 mt-5">
                         <input type="file" onChange={(e) => uploadImage(e)}/>
                         <div className="w-24 h-24">
-                            <img src={uploadImageUrl} alt="" className="w-full rounded-full"/>
+                            <img src={uploadImageUrl} alt="" className="w-full h-full rounded-full"/>
                         </div>
                     </div>
                     <div className="flex items-center gap-7 justify-center w-full mt-5">

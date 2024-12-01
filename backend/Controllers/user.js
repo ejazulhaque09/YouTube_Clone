@@ -6,13 +6,13 @@ const secretKey = process.env.SECRET_KEY
 
 exports.signup = async (req, res) => {
     try{
-        const {channelName, userName, about, password, profilePic} = req.body;
-        const isExist = await User.findOne({userName})
+        const {channelName, email, about, password, profilePic} = req.body;
+        const isExist = await User.findOne({email})
         // checks if the user already exists
         if(isExist){
             res.status(400).json({
                 success: false,
-                msg: "Username Already Exists"
+                msg: "User Already Exists"
             })
         }
         else{
@@ -23,7 +23,7 @@ exports.signup = async (req, res) => {
             // creates a new user to the database
             const user = new User({
                 channelName, 
-                userName, 
+                email, 
                 about, 
                 password: hashedPass,
                 profilePic
@@ -46,8 +46,8 @@ exports.signup = async (req, res) => {
 
 exports.login = async (req, res) => {
     try{
-        const{userName, password} = req.body;
-        const user = await User.findOne({userName});
+        const{email, password} = req.body;
+        const user = await User.findOne({email});
 
         // verify the password and generate a jwt token if valid
         if(user && (await bcrypt.compare(password, user.password))){

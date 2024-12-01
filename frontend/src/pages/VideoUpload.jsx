@@ -4,12 +4,13 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 const VideoUpload = () => {
   const { videoId } = useParams();
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
-  const [inputField, setInputField] = useState({
+  //input field for the video upload
+  const [inputField, setInputField] = useState({  
     title: "",
     description: "",
     videoLink: "",
@@ -22,13 +23,15 @@ const VideoUpload = () => {
       [name]: e.target.value,
     });
   };
-  const uploadImage = async (e, type) => {
+  // upload thumbnail and video
+  const uploadFiles = async (e, type) => {
     setLoader(true);
     console.log("Uploading");
     const files = e.target.files;
     const data = new FormData();
     data.append("file", files[0]);
-    data.append("upload_preset", "youtube-clone");
+    data.append("upload_preset", "unsigned_youtube_clone");
+    data.append("folder", "Youtube-Clone");
     try {
       const response = await axios.post(
         `https://api.cloudinary.com/v1_1/dvhaa5sbn/${type}/upload`,
@@ -36,11 +39,13 @@ const VideoUpload = () => {
       );
       console.log(response);
       setLoader(false);
-      const url = response.data.url;
+      const url = response?.data?.url;
+      const duration = response?.data?.duration
       let val = type === "image" ? "thumbnail" : "videoLink";
       setInputField({
         ...inputField,
         [val]: url,
+        time: duration
       });
     } catch (err) {
       setLoader(false);
@@ -51,7 +56,10 @@ const VideoUpload = () => {
   useEffect(() => {
     let isLogin = localStorage.getItem("userId");
     if (isLogin === null) {
-      navigate("/");
+      toast.info("Please login to upload video")
+      setTimeout(() => {
+        navigate("/");
+      }, 1500);
     }
   }, []);
   useEffect(() => {
@@ -75,6 +83,7 @@ const VideoUpload = () => {
     }
   }, [videoId]);
 
+  // handle video submit
   const handleSubmitFunc = async (type) => {
     setLoader(true);
     if (type === "update") {
@@ -86,8 +95,10 @@ const VideoUpload = () => {
           .then((res) => {
             console.log(res);
             setLoader(false);
-            navigate("/");
             toast.success("Updated Successfully");
+            setTimeout(() => {
+              navigate("/");
+            }, 2000);
           })
           .catch((err) => {
             console.log(err);
@@ -95,6 +106,7 @@ const VideoUpload = () => {
           });
       } catch (error) {
         console.log(error)
+        toast.error("Unauthorized")
       }
     }
     else{
@@ -102,8 +114,10 @@ const VideoUpload = () => {
             await axios.post(`http://localhost:4000/video/uploadVideo`, inputField, {withCredentials: true})
             .then((res) =>{
                 setLoader(false)
-                navigate('/')
                 toast.success("Video Uploaded Successfully")
+                setTimeout(() => {
+                  navigate('/')
+                }, 2000);
             })
         } catch (error) {
             console.log(error)
@@ -144,13 +158,13 @@ const VideoUpload = () => {
               handleOnChangeInput(e, "category");
             }}
             className="w-[70%] h-[45px] px-5 text-[16px] text-black bg-gray-200 border-none rounded-md placeholder:text-gray-600"
-            placeholder="Category"
+            placeholder="Category e.g., Algorithms, Gaming"
           />
           <div>
             Thumbnail{" "}
             <input
               type="file"
-              onChange={(e) => uploadImage(e, "image")}
+              onChange={(e) => uploadFiles(e, "image")}
               className="w-[70%] h-[45px] px-5 text-[16px] text-black bg-gray-200 border-none rounded-md"
               accept="image/*"
             />{" "}
@@ -159,7 +173,7 @@ const VideoUpload = () => {
             Video{" "}
             <input
               type="file"
-              onChange={(e) => uploadImage(e, "video")}
+              onChange={(e) => uploadFiles(e, "video")}
               className="w-[70%] h-[45px] px-5 text-[16px] text-black bg-gray-200 border-none rounded-md"
               accept="video/mp4, video/webm, video/*"
             />{" "}
@@ -182,6 +196,7 @@ const VideoUpload = () => {
           </Link>
         </div>
       </div>
+      <ToastContainer/>
     </div>
   );
 };

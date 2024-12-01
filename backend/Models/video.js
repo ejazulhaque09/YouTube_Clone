@@ -36,6 +36,13 @@ const videoSchema = new mongoose.Schema({
         ref:'user',
         default: []
     },
+    
+    time:{
+        type: String,
+        required: true,
+        default: '02.25'
+    },
+
 }, {timestamps: true})
 
 module.exports = mongoose.model('video', videoSchema)
