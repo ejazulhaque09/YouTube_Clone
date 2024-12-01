@@ -282,20 +282,68 @@ const Video = () => {
         </div>
       </div>
       <div className="w-full max-w-[406px] px-3.5 text-black flex flex-col">
-        <div className="flex gap-3.5 cursor-pointer">
+        <div className="flex gap-3.5 mb-5 cursor-pointer">
           <div className="w-[168px] h-[94px]">
-            <img src="img.jpg" alt="" className="w-full h-full" />
+            <img src= {"https://res.cloudinary.com/dvhaa5sbn/image/upload/v1733043371/Youtube-Clone/Recomended%20Videos/pcfr8uvsxhzaoiyo9xrd.jpg"} alt="" className="w-50 h-30" />
           </div>
           <div className="flex flex-col gap-0.5">
             <div className="text-[15px] font-medium mb-1.5">
-              Learn Full Stack development using MERN
+              Python VS Rust C++
             </div>
             <div className="text-gray-400 text-[12px]">Development</div>
-            <div className="video_suggestios_About_Profile">
-              136k . 1 week ago
+            <div className="video_suggestios_About_Profile text-sm text-gray-600">
+              136k . 2 week ago
             </div>
           </div>
         </div>
+
+        
+        <div className="flex gap-3.5 mb-5 cursor-pointer">
+          <div className="w-[168px] h-[94px]">
+            <img src={'https://res.cloudinary.com/dvhaa5sbn/image/upload/v1733043021/Youtube-Clone/Recomended%20Videos/xijbnqrphpkhndxmerew.jpg'} alt="" className="w-50 h-30" />
+          </div>
+          <div className="flex flex-col gap-0.5">
+            <div className="text-[15px] font-medium mb-1.5">
+              Which coding Language is best in 2025
+            </div>
+            <div className="text-gray-400 text-[12px]">Coding</div>
+            <div className="video_suggestios_About_Profile text-sm text-gray-600">
+              26k . 1 month ago
+            </div>
+          </div>
+        </div>
+
+        <div className="flex gap-3.5 mb-5 cursor-pointer">
+          <div className="w-[168px] h-[94px]">
+            <img src={'https://res.cloudinary.com/dvhaa5sbn/image/upload/v1733043168/Youtube-Clone/Recomended%20Videos/beua1yvyxccyvn7c478e.jpg'} alt="" className="w-50 h-30" />
+          </div>
+          <div className="flex flex-col gap-0.5">
+            <div className="text-[15px] font-medium mb-1.5">
+              Can we learn Machine Learning in 3 Months?
+            </div>
+            <div className="text-gray-400 text-[12px]">AI_ML</div>
+            <div className="video_suggestios_About_Profile text-sm text-gray-600">
+              136M . 2 year week ago
+            </div>
+          </div>
+        </div>
+
+        <div className="flex gap-3.5 mb-5 cursor-pointer">
+          <div className="w-[168px] h-[94px]">
+            <img src={"https://res.cloudinary.com/dvhaa5sbn/image/upload/v1733043251/Youtube-Clone/Recomended%20Videos/nhtfp6aehpjcdjyuue5c.jpg"} alt="" className="w-50 h-30" />
+          </div>
+          <div className="flex flex-col gap-0.5">
+            <div className="text-[15px] font-medium mb-1.5">
+              What is an API ?
+            </div>
+            <div className="text-gray-400 text-[12px]">Development</div>
+            <div className="video_suggestios_About_Profile text-sm text-gray-600">
+              16k . 1 day ago
+            </div>
+          </div>
+        </div>
+
+
       </div>
       <ToastContainer />
     </div>
