@@ -25,7 +25,7 @@ exports.getAllVideo = async (req, res) => {
 
         // fetch all the videos 
         const videos = await Video.find().populate('user', 'channelName profilePic email createdAt about')
-        console.log(videos)
+        // console.log(videos)
         res.status(200).json({
             success: true,
             videos
@@ -83,7 +83,7 @@ exports.editVideo = async (req, res) =>{
     const {id} = req.params;
     const {title, description, videoLink, category, thumbnail, time} = req.body;
 
-    console.log(id)
+    // console.log(id)
     try{
         const video = await Video.findById(id);
         if(!video) {
@@ -115,7 +115,7 @@ exports.editVideo = async (req, res) =>{
 exports.deleteVideo = async(req, res) =>{
     try{
         const {id} = req.params
-        console.log(id)
+        // console.log(id)
         const video = await Video.findById(id);
         if(!video){
             return res.status(404).json({error: "Video not found"})
