@@ -14,7 +14,7 @@ const Profile = ({ sideNavBar }) => {
   //function to fetch the profile data
   const fetchProfileData = async () => {
     axios
-      .get(`http://localhost:4000/video/${id}/channel`)
+      .get(`http://localhost:5000/video/${id}/channel`)
       .then((res) => {
         console.log(res);
         setData(res.data.data);
@@ -43,7 +43,7 @@ const Profile = ({ sideNavBar }) => {
       return;
     }
     try {
-      await axios.delete(`http://localhost:4000/video/video/${videoId}`, {
+      await axios.delete(`http://localhost:5000/video/video/${videoId}`, {
         withCredentials: true,
       });
       toast.info("Video Deleted successfully");

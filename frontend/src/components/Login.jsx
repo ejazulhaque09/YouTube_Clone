@@ -29,7 +29,7 @@ const Login = ({setLoginModal}) => {
 
         // request to login
         axios.
-        post('http://localhost:4000/auth/login', loginField, {
+        post('http://localhost:5000/auth/login', loginField, {
             withCredentials: true
         })
         .then((res) => {

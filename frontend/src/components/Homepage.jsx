@@ -10,7 +10,7 @@ const Homepage = ({ sideNavbar, search }) => {
   //fetch the data from video on component mount
   useEffect(() => {
     axios
-      .get("http://localhost:4000/video/allVideo")
+      .get("http://localhost:5000/video/allVideo")
       .then((res) => {
         console.log(res.data);
         setData(res.data.videos);

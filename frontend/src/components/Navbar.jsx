@@ -56,7 +56,7 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
   // handle logout 
   const getLogoutFunc = async () => {
     axios
-      .post("http://localhost:4000/auth/logout", {}, { withCredentials: true })
+      .post("http://localhost:5000/auth/logout", {}, { withCredentials: true })
       .then((res) => {
         console.log("Logged Out");
       })

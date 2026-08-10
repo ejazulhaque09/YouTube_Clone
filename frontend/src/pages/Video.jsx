@@ -21,7 +21,7 @@ const Video = () => {
 
   const fetchVideoById = async () => {
     await axios
-      .get(`http://localhost:4000/video/getVideoById/${id}`)
+      .get(`http://localhost:5000/video/getVideoById/${id}`)
       .then((res) => {
         setData(res.data.data); // set video data
         console.log(data)
@@ -35,7 +35,7 @@ const Video = () => {
   //handle like
   const handleLike = async () => {
     try {
-      await axios.post(`http://localhost:4000/video/video/${id}/like`,{},{withCredentials: true})
+      await axios.post(`http://localhost:5000/video/video/${id}/like`,{},{withCredentials: true})
     } catch (error) {
       toast.error("Unable to like")
     }
@@ -43,7 +43,7 @@ const Video = () => {
   // handle dislike
   const handleDislike = async () => {
     try {
-      await axios.post(`http://localhost:4000/video/video/${id}/dislike`,{},{withCredentials: true})
+      await axios.post(`http://localhost:5000/video/video/${id}/dislike`,{},{withCredentials: true})
       
     } catch (error) {
       toast.error("Unable to like")
@@ -53,7 +53,7 @@ const Video = () => {
     // fetch reaction count
   const handleReaction = async ()=> {
     try {
-      await axios.get(`http://localhost:4000/video/video/${id}/reactions`)
+      await axios.get(`http://localhost:5000/video/video/${id}/reactions`)
       .then((res) => {
         console.log(res.data.likes)
         console.log(res.data.dislikes)
@@ -67,7 +67,7 @@ const Video = () => {
 
   const getCommentByVideoId = async () => {
     await axios
-      .get(`http://localhost:4000/comment/comment/${id}`)
+      .get(`http://localhost:5000/comment/comment/${id}`)
       .then((res) => {
         setComments(res.data.comment);
       })
@@ -81,7 +81,7 @@ const Video = () => {
       video: id,
     };
     await axios
-      .post(`http://localhost:4000/comment/addComment`, body, {
+      .post(`http://localhost:5000/comment/addComment`, body, {
         withCredentials: true,
       })
       .then((res) => {
@@ -98,7 +98,7 @@ const Video = () => {
   const handleEditComment = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:4000/comment/comment/${editCommentId}`,
+        `http://localhost:5000/comment/comment/${editCommentId}`,
         { message: editMessage }
       );
       setComments(
@@ -118,7 +118,7 @@ const Video = () => {
     // handle delete comment
   const handleDeleteComment = async (commentId) => {
     try {
-      await axios.delete(`http://localhost:4000/comment/comment/${commentId}`);
+      await axios.delete(`http://localhost:5000/comment/comment/${commentId}`);
       setComments(comments.filter((comment) => comment._id !== commentId));
     } catch (error) {
       toast.error("Unable to delete comment");

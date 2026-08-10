@@ -65,7 +65,7 @@ const VideoUpload = () => {
   useEffect(() => {
     if (videoId) {
       axios
-        .get(`http://localhost:4000/video/getVideoById/${videoId}`)
+        .get(`http://localhost:5000/video/getVideoById/${videoId}`)
         .then((res) => {
           console.log(res.data.data)
           const video = res.data.data;
@@ -89,7 +89,7 @@ const VideoUpload = () => {
     if (type === "update") {
       try {
         await axios
-          .put(`http://localhost:4000/video/video/${videoId}`, inputField, {
+          .put(`http://localhost:5000/video/video/${videoId}`, inputField, {
             withCredentials: true,
           })
           .then((res) => {
@@ -111,7 +111,7 @@ const VideoUpload = () => {
     }
     else{
         try {
-            await axios.post(`http://localhost:4000/video/uploadVideo`, inputField, {withCredentials: true})
+            await axios.post(`http://localhost:5000/video/uploadVideo`, inputField, {withCredentials: true})
             .then((res) =>{
                 setLoader(false)
                 toast.success("Video Uploaded Successfully")

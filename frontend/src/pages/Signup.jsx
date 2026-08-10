@@ -38,7 +38,7 @@ const Signup = () => {
         }
         setProgressBar(true);
         // send post request to ceate new user
-        axios.post(`http://localhost:4000/auth/signup`, signUpField, {withCredentials: true})
+        axios.post(`http://localhost:5000/auth/signup`, signUpField, {withCredentials: true})
         .then((res) => {
             toast.success("Registered Successfully")
             setProgressBar(false)
