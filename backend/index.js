@@ -23,7 +23,8 @@ const commentRoute = require('./Routes/comment')
 //routes
 app.use('/auth', authRoute);
 app.use('/video', videoRoute);
-app.use('/comment',commentRoute)
+app.use('/comment',commentRoute);
+app.use('/upload', require('./Routes/upload'));
 
 // Starts the server
 app.listen(port, ()=>{

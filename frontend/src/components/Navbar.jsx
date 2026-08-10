@@ -32,7 +32,6 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
   //navigate to user's profile page
   let userId = localStorage.getItem("userId");
   const handleProfile = () => {
-    console.log(userId);
     navigate(`/user/${userId}`);
     setNavbarModal(false);
   };
@@ -58,7 +57,6 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
     axios
       .post("http://localhost:5000/auth/logout", {}, { withCredentials: true })
       .then((res) => {
-        console.log("Logged Out");
       })
       .catch((err) => {
         console.log(err);
@@ -69,7 +67,6 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
     let profilePic = localStorage.getItem("profilePic");
     setIsLoggedIn(localStorage.getItem("userId") !== null ? true : false);
     if (profilePic) {
-      console.log(profilePic)
       setUserPic(profilePic);
     }
   }, []);
@@ -101,7 +98,6 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
             className="w-full h-10 rounded-l-full border border-gray-300 bg-white text-black px-4 focus:outline-none placeholder:text-gray-400 text-base"
           />
           {/* {console.log(search)} */}
-          {console.log(setSearch)}
           <div className="w-16 h-10 flex items-center justify-center bg-gray-100 border border-gray-300 rounded-r-full cursor-pointer hover:bg-gray-300">
             <SearchIcon sx={{ fontSize: "29px", color: "black" }} />
           </div>
@@ -111,7 +107,6 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
         </div>
       </div>
       <div className="right flex gap-3 sm:gap-5 items-center relative">
-        {console.log(userId)}
         <Link to={`/${userId}/upload`}>
           <VideoCallIcon
             sx={{ fontSize: "30px", cursor: "pointer", color: "black" }}

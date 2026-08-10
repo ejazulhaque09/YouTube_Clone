@@ -16,7 +16,6 @@ const Profile = ({ sideNavBar }) => {
     axios
       .get(`http://localhost:5000/video/${id}/channel`)
       .then((res) => {
-        console.log(res);
         setData(res.data.data);
         setUser(res.data.user);
       })
@@ -74,7 +73,6 @@ const Profile = ({ sideNavBar }) => {
           <div className="flex flex-col gap-2 w-full lg:w-[85%] lg:text-left px-2.5">
             <div className="text-4xl font-semibold">{user?.channelName}</div>
             <div className="text-md text-gray-500">
-              {console.log(user?.email.split('@')[0])}
               @{user?.email.split('@')[0]} . {data?.length} videos
             </div>
             <div className="text-sm text-gray-500">{user?.about}</div>

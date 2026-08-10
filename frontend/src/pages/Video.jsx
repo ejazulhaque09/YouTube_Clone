@@ -24,12 +24,9 @@ const Video = () => {
       .get(`http://localhost:5000/video/getVideoById/${id}`)
       .then((res) => {
         setData(res.data.data); // set video data
-        console.log(data)
-        console.log(res.data.data.videoLink)
         setVideoUrl(res.data.data.videoLink); // set video url
       }) 
       .catch((err) => {
-        console.log(err);
       });
   };
   //handle like
@@ -55,8 +52,6 @@ const Video = () => {
     try {
       await axios.get(`http://localhost:5000/video/video/${id}/reactions`)
       .then((res) => {
-        console.log(res.data.likes)
-        console.log(res.data.dislikes)
         setLikes(res.data.likes)
         setdisLikes(res.data.dislikes)
       })
@@ -134,7 +129,6 @@ const Video = () => {
     <div className="bg-white mt-[56px] flex text-black py-8 ml-2 justify-center flex-col md:flex-row">
       <div className="w-full max-w-[875px] flex flex-col">
         <div className="w-full">
-          {console.log(data)}
           {data && (
             <video
               width="100"
@@ -284,7 +278,7 @@ const Video = () => {
       <div className="w-full max-w-[406px] px-3.5 text-black flex flex-col">
         <div className="flex gap-3.5 mb-5 cursor-pointer">
           <div className="w-[168px] h-[94px]">
-            <img src= {"https://res.cloudinary.com/dvhaa5sbn/image/upload/v1733043371/Youtube-Clone/Recomended%20Videos/pcfr8uvsxhzaoiyo9xrd.jpg"} alt="" className="w-50 h-30" />
+            <img src= {"https://placehold.co/168x94?text=Thumbnail"} alt="" className="w-50 h-30" />
           </div>
           <div className="flex flex-col gap-0.5">
             <div className="text-[15px] font-medium mb-1.5">
@@ -300,7 +294,7 @@ const Video = () => {
         
         <div className="flex gap-3.5 mb-5 cursor-pointer">
           <div className="w-[168px] h-[94px]">
-            <img src={'https://res.cloudinary.com/dvhaa5sbn/image/upload/v1733043021/Youtube-Clone/Recomended%20Videos/xijbnqrphpkhndxmerew.jpg'} alt="" className="w-50 h-30" />
+            <img src={'https://placehold.co/168x94?text=Thumbnail'} alt="" className="w-50 h-30" />
           </div>
           <div className="flex flex-col gap-0.5">
             <div className="text-[15px] font-medium mb-1.5">
@@ -315,7 +309,7 @@ const Video = () => {
 
         <div className="flex gap-3.5 mb-5 cursor-pointer">
           <div className="w-[168px] h-[94px]">
-            <img src={'https://res.cloudinary.com/dvhaa5sbn/image/upload/v1733043168/Youtube-Clone/Recomended%20Videos/beua1yvyxccyvn7c478e.jpg'} alt="" className="w-50 h-30" />
+            <img src={'https://placehold.co/168x94?text=Thumbnail'} alt="" className="w-50 h-30" />
           </div>
           <div className="flex flex-col gap-0.5">
             <div className="text-[15px] font-medium mb-1.5">
@@ -330,7 +324,7 @@ const Video = () => {
 
         <div className="flex gap-3.5 mb-5 cursor-pointer">
           <div className="w-[168px] h-[94px]">
-            <img src={"https://res.cloudinary.com/dvhaa5sbn/image/upload/v1733043251/Youtube-Clone/Recomended%20Videos/nhtfp6aehpjcdjyuue5c.jpg"} alt="" className="w-50 h-30" />
+            <img src={"https://placehold.co/168x94?text=Thumbnail"} alt="" className="w-50 h-30" />
           </div>
           <div className="flex flex-col gap-0.5">
             <div className="text-[15px] font-medium mb-1.5">

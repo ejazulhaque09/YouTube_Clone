@@ -25,7 +25,6 @@ exports.getAllVideo = async (req, res) => {
 
         // fetch all the videos 
         const videos = await Video.find().populate('user', 'channelName profilePic email createdAt about')
-        console.log(videos)
         res.status(200).json({
             success: true,
             videos

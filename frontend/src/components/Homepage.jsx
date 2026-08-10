@@ -12,7 +12,6 @@ const Homepage = ({ sideNavbar, search }) => {
     axios
       .get("http://localhost:5000/video/allVideo")
       .then((res) => {
-        console.log(res.data);
         setData(res.data.videos);
         setFilteredData(res.data.videos);
       })
@@ -35,7 +34,6 @@ const Homepage = ({ sideNavbar, search }) => {
       )
     }
     setFilteredData(filtered)
-    console.log(filtered)
 },[selectedCategory, data, search])   
   const options = [
     "All",
@@ -99,7 +97,6 @@ const Homepage = ({ sideNavbar, search }) => {
                 <div className="flex flex-col w-full pt-1.5 box-border">
                   <div className="font-semibold text-lg">{item?.title}</div>
                   <div className="text-lg text-gray-500 mt-1 ">{item?.user?.channelName}</div>
-                  {console.log(item?.user)}
                   <div className="text-sm text-gray-500 ">23k views</div>
                 </div>
               </div>

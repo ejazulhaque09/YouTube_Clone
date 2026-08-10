@@ -24,8 +24,6 @@ const Login = ({setLoginModal}) => {
     // handle login 
     const handleLoginFunc = async () => {
         setLoader(true);
-        console.log("calling api")
-        console.log(loginField)
 
         // request to login
         axios.
@@ -33,14 +31,11 @@ const Login = ({setLoginModal}) => {
             withCredentials: true
         })
         .then((res) => {
-            console.log("Api called")
-            console.log(res)
             setLoader(false);
             // storing the user details in local storage
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("userId", res.data.user._id);
             localStorage.setItem("profilePic", res.data.user.profilePic);
-            console.log("profilePic", res.data.user.profilePic);
             toast.success("Login Successful")
             setTimeout(() => {
                 window.location.reload();

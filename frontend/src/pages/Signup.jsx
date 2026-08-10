@@ -53,18 +53,14 @@ const Signup = () => {
 
     //handle profile image to cloudinary
     const uploadImage = async (e) => {
-        console.log("uploading");
         const files = e.target.files;
         const data = new FormData();
         data.append('file', files[0]);
-        data.append('upload_preset', 'youtube-clone');
         try{
-            // cloudName="dvhaa5sbn"
             setProgressBar(true);
-            const response = await axios.post("https://api.cloudinary.com/v1_1/dvhaa5sbn/image/upload", data)
+            const response = await axios.post("http://localhost:5000/upload", data)
             setProgressBar(false);
             const imageUrl = response.data.url;
-            console.log(imageUrl)
             setUpLoadedImageUrl(imageUrl);
             setSignUpField({
                 ...signUpField,

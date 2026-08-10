@@ -26,18 +26,14 @@ const VideoUpload = () => {
   // upload thumbnail and video
   const uploadFiles = async (e, type) => {
     setLoader(true);
-    console.log("Uploading");
     const files = e.target.files;
     const data = new FormData();
     data.append("file", files[0]);
-    data.append("upload_preset", "unsigned_youtube_clone");
-    data.append("folder", "Youtube-Clone");
     try {
       const response = await axios.post(
-        `https://api.cloudinary.com/v1_1/dvhaa5sbn/${type}/upload`,
+        `http://localhost:5000/upload`,
         data
       );
-      console.log(response);
       setLoader(false);
       const url = response?.data?.url;
       const duration = response?.data?.duration
@@ -67,7 +63,6 @@ const VideoUpload = () => {
       axios
         .get(`http://localhost:5000/video/getVideoById/${videoId}`)
         .then((res) => {
-          console.log(res.data.data)
           const video = res.data.data;
           setInputField({
             title: video.title,
@@ -93,7 +88,6 @@ const VideoUpload = () => {
             withCredentials: true,
           })
           .then((res) => {
-            console.log(res);
             setLoader(false);
             toast.success("Updated Successfully");
             setTimeout(() => {
