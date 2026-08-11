@@ -5,7 +5,10 @@ import Box from "@mui/material/Box";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import { useUser } from "../context/UserContext";
+
 const VideoUpload = () => {
+  const { isLoggedIn } = useUser();
   const { videoId } = useParams();
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
@@ -50,14 +53,13 @@ const VideoUpload = () => {
   };
 
   useEffect(() => {
-    let isLogin = localStorage.getItem("userId");
-    if (isLogin === null) {
+    if (!isLoggedIn) {
       toast.info("Please login to upload video")
       setTimeout(() => {
         navigate("/");
       }, 1500);
     }
-  }, []);
+  }, [isLoggedIn, navigate]);
   useEffect(() => {
     if (videoId) {
       axios
