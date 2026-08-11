@@ -3,9 +3,12 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import axios from "../utils/axios";
 import { toast, ToastContainer } from "react-toastify";
+import { useUser } from "../context/UserContext";
+
 const VideoUpload = () => {
+  const { isLoggedIn } = useUser();
   const { videoId } = useParams();
   const [loader, setLoader] = useState(false);
   const navigate = useNavigate();
@@ -31,7 +34,7 @@ const VideoUpload = () => {
     data.append("file", files[0]);
     try {
       const response = await axios.post(
-        `http://localhost:5000/upload`,
+        `/upload`,
         data
       );
       setLoader(false);
@@ -50,18 +53,17 @@ const VideoUpload = () => {
   };
 
   useEffect(() => {
-    let isLogin = localStorage.getItem("userId");
-    if (isLogin === null) {
+    if (!isLoggedIn) {
       toast.info("Please login to upload video")
       setTimeout(() => {
         navigate("/");
       }, 1500);
     }
-  }, []);
+  }, [isLoggedIn, navigate]);
   useEffect(() => {
     if (videoId) {
       axios
-        .get(`http://localhost:5000/video/getVideoById/${videoId}`)
+        .get(`/video/getVideoById/${videoId}`)
         .then((res) => {
           const video = res.data.data;
           setInputField({
@@ -84,9 +86,7 @@ const VideoUpload = () => {
     if (type === "update") {
       try {
         await axios
-          .put(`http://localhost:5000/video/video/${videoId}`, inputField, {
-            withCredentials: true,
-          })
+          .put(`/video/video/${videoId}`, inputField)
           .then((res) => {
             setLoader(false);
             toast.success("Updated Successfully");
@@ -105,7 +105,7 @@ const VideoUpload = () => {
     }
     else{
         try {
-            await axios.post(`http://localhost:5000/video/uploadVideo`, inputField, {withCredentials: true})
+            await axios.post(`/video/uploadVideo`, inputField)
             .then((res) =>{
                 setLoader(false)
                 toast.success("Video Uploaded Successfully")

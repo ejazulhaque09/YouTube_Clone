@@ -8,17 +8,18 @@ import Notification from "@mui/icons-material/Notifications";
 import { useState } from "react";
 import Login from "./Login";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../utils/axios";
+import { useUser } from "../context/UserContext";
 // import './Navbar.css'
 
 const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
+  const { user, isLoggedIn, logoutUser } = useUser();
   // store user profile pic
   const [userPic, setUserPic] = useState(
     "https://tse1.mm.bing.net/th?id=OIP.Nykv6l7QXIo0lDbQvybBqQAAAA&pid=Api&P=0&h=180"
   );
   const [navbarModal, setNavbarModal] = useState(false);
   const [login, setLogin] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
   // toggle the modal
@@ -30,9 +31,11 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
   };
 
   //navigate to user's profile page
-  let userId = localStorage.getItem("userId");
+  let userId = user?.userId;
   const handleProfile = () => {
-    navigate(`/user/${userId}`);
+    if (userId) {
+      navigate(`/user/${userId}`);
+    }
     setNavbarModal(false);
   };
   const setLoginModal = () => {
@@ -43,7 +46,7 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
     if (button === "login") {
       setLogin(true);
     } else {
-      localStorage.clear();
+      logoutUser();
       getLogoutFunc();
       setTimeout(() => {
         navigate("/");
@@ -55,7 +58,7 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
   // handle logout 
   const getLogoutFunc = async () => {
     axios
-      .post("http://localhost:5000/auth/logout", {}, { withCredentials: true })
+      .post("/auth/logout", {})
       .then((res) => {
       })
       .catch((err) => {
@@ -64,12 +67,12 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
   };
 
   useEffect(() => {
-    let profilePic = localStorage.getItem("profilePic");
-    setIsLoggedIn(localStorage.getItem("userId") !== null ? true : false);
-    if (profilePic) {
-      setUserPic(profilePic);
+    if (user?.profilePic) {
+      setUserPic(user.profilePic);
+    } else {
+      setUserPic("https://tse1.mm.bing.net/th?id=OIP.Nykv6l7QXIo0lDbQvybBqQAAAA&pid=Api&P=0&h=180");
     }
-  }, []);
+  }, [user]);
 
   return (
     <div className="fixed top-0 w-full bg-white flex items-center justify-between px-4 z-10">

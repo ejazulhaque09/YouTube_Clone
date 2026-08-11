@@ -5,7 +5,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import LinearProgress from "@mui/material/LinearProgress";
 import 'react-toastify/dist/ReactToastify.css'
 import { toast, ToastContainer } from "react-toastify";
-import axios from 'axios'
+import axios from '../utils/axios'
 const Signup = () => {
     //state management for profile pic
     const [uploadImageUrl, setUpLoadedImageUrl] = useState("https://th.bing.com/th/id/OIP.Wy2uo_y-ttULYs4chLmqSAAAAA?rs=1&pid=ImgDetMain")
@@ -38,7 +38,7 @@ const Signup = () => {
         }
         setProgressBar(true);
         // send post request to ceate new user
-        axios.post(`http://localhost:5000/auth/signup`, signUpField, {withCredentials: true})
+        axios.post(`/auth/signup`, signUpField)
         .then((res) => {
             toast.success("Registered Successfully")
             setProgressBar(false)
@@ -58,7 +58,7 @@ const Signup = () => {
         data.append('file', files[0]);
         try{
             setProgressBar(true);
-            const response = await axios.post("http://localhost:5000/upload", data)
+            const response = await axios.post("/upload", data)
             setProgressBar(false);
             const imageUrl = response.data.url;
             setUpLoadedImageUrl(imageUrl);

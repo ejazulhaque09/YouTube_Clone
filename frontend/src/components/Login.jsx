@@ -4,8 +4,11 @@ import Box from "@mui/material/Box";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import LinearProgress from "@mui/material/LinearProgress";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
+import axios from "../utils/axios";
+import { useUser } from "../context/UserContext";
+
 const Login = ({setLoginModal}) => {
+    const { loginUser } = useUser();
     const [loader, setLoader] = useState(false);
     // state to manage the login fields
     const [loginField, setLoginField] = useState({
@@ -27,15 +30,11 @@ const Login = ({setLoginModal}) => {
 
         // request to login
         axios.
-        post('http://localhost:5000/auth/login', loginField, {
-            withCredentials: true
-        })
+        post('/auth/login', loginField)
         .then((res) => {
             setLoader(false);
-            // storing the user details in local storage
-            localStorage.setItem("token", res.data.token);
-            localStorage.setItem("userId", res.data.user._id);
-            localStorage.setItem("profilePic", res.data.user.profilePic);
+            // using context to log the user in
+            loginUser(res.data.user, res.data.token);
             toast.success("Login Successful")
             setTimeout(() => {
                 window.location.reload();
