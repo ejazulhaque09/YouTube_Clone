@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 import SideNavbar from "../components/SideNavbar";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import axios from "../utils/axios";
 import { toast, ToastContainer } from "react-toastify";
 
 const Profile = ({ sideNavBar }) => {
@@ -14,7 +14,7 @@ const Profile = ({ sideNavBar }) => {
   //function to fetch the profile data
   const fetchProfileData = async () => {
     axios
-      .get(`http://localhost:5000/video/${id}/channel`)
+      .get(`/video/${id}/channel`)
       .then((res) => {
         setData(res.data.data);
         setUser(res.data.user);
@@ -42,9 +42,7 @@ const Profile = ({ sideNavBar }) => {
       return;
     }
     try {
-      await axios.delete(`http://localhost:5000/video/video/${videoId}`, {
-        withCredentials: true,
-      });
+      await axios.delete(`/video/video/${videoId}`);
       toast.info("Video Deleted successfully");
       setData(data.filter((video) => video._id !== videoId));
     } catch (err) {

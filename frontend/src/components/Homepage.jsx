@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import axios from "../utils/axios";
 
 const Homepage = ({ sideNavbar, search }) => {
   const [data, setData] = useState([]);  // holds all video data
@@ -10,7 +10,7 @@ const Homepage = ({ sideNavbar, search }) => {
   //fetch the data from video on component mount
   useEffect(() => {
     axios
-      .get("http://localhost:5000/video/allVideo")
+      .get("/video/allVideo")
       .then((res) => {
         setData(res.data.videos);
         setFilteredData(res.data.videos);

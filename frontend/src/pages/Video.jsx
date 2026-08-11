@@ -5,7 +5,7 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import ReplyIcon from "@mui/icons-material/Reply";
 import { Link, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import axios from "axios";
+import axios from "../utils/axios";
 
 const Video = () => {
 
@@ -21,7 +21,7 @@ const Video = () => {
 
   const fetchVideoById = async () => {
     await axios
-      .get(`http://localhost:5000/video/getVideoById/${id}`)
+      .get(`/video/getVideoById/${id}`)
       .then((res) => {
         setData(res.data.data); // set video data
         setVideoUrl(res.data.data.videoLink); // set video url
@@ -32,7 +32,7 @@ const Video = () => {
   //handle like
   const handleLike = async () => {
     try {
-      await axios.post(`http://localhost:5000/video/video/${id}/like`,{},{withCredentials: true})
+      await axios.post(`/video/video/${id}/like`)
     } catch (error) {
       toast.error("Unable to like")
     }
@@ -40,7 +40,7 @@ const Video = () => {
   // handle dislike
   const handleDislike = async () => {
     try {
-      await axios.post(`http://localhost:5000/video/video/${id}/dislike`,{},{withCredentials: true})
+      await axios.post(`/video/video/${id}/dislike`)
       
     } catch (error) {
       toast.error("Unable to like")
@@ -50,7 +50,7 @@ const Video = () => {
     // fetch reaction count
   const handleReaction = async ()=> {
     try {
-      await axios.get(`http://localhost:5000/video/video/${id}/reactions`)
+      await axios.get(`/video/video/${id}/reactions`)
       .then((res) => {
         setLikes(res.data.likes)
         setdisLikes(res.data.dislikes)
@@ -62,7 +62,7 @@ const Video = () => {
 
   const getCommentByVideoId = async () => {
     await axios
-      .get(`http://localhost:5000/comment/comment/${id}`)
+      .get(`/comment/comment/${id}`)
       .then((res) => {
         setComments(res.data.comment);
       })
@@ -76,9 +76,7 @@ const Video = () => {
       video: id,
     };
     await axios
-      .post(`http://localhost:5000/comment/addComment`, body, {
-        withCredentials: true,
-      })
+      .post(`/comment/addComment`, body)
       .then((res) => {
         const newComment = res.data.comment;
         setComments([newComment, ...comments]);
@@ -93,7 +91,7 @@ const Video = () => {
   const handleEditComment = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:5000/comment/comment/${editCommentId}`,
+        `/comment/comment/${editCommentId}`,
         { message: editMessage }
       );
       setComments(
@@ -113,7 +111,7 @@ const Video = () => {
     // handle delete comment
   const handleDeleteComment = async (commentId) => {
     try {
-      await axios.delete(`http://localhost:5000/comment/comment/${commentId}`);
+      await axios.delete(`/comment/comment/${commentId}`);
       setComments(comments.filter((comment) => comment._id !== commentId));
     } catch (error) {
       toast.error("Unable to delete comment");

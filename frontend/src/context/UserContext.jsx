@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import axios from 'axios';
 import Cookies from 'js-cookie';
 
 const UserContext = createContext();
@@ -11,9 +10,6 @@ export const useUser = () => {
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    // Global axios config for sending cookies
-    axios.defaults.withCredentials = true;
 
     useEffect(() => {
         // Load user from localStorage and check if token exists

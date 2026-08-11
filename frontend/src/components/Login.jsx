@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import LinearProgress from "@mui/material/LinearProgress";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
+import axios from "../utils/axios";
 import { useUser } from "../context/UserContext";
 
 const Login = ({setLoginModal}) => {
@@ -30,9 +30,7 @@ const Login = ({setLoginModal}) => {
 
         // request to login
         axios.
-        post('http://localhost:5000/auth/login', loginField, {
-            withCredentials: true
-        })
+        post('/auth/login', loginField)
         .then((res) => {
             setLoader(false);
             // using context to log the user in

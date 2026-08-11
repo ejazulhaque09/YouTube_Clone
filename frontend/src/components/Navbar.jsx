@@ -8,7 +8,7 @@ import Notification from "@mui/icons-material/Notifications";
 import { useState } from "react";
 import Login from "./Login";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios from "../utils/axios";
 import { useUser } from "../context/UserContext";
 // import './Navbar.css'
 
@@ -58,7 +58,7 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
   // handle logout 
   const getLogoutFunc = async () => {
     axios
-      .post("http://localhost:5000/auth/logout", {}, { withCredentials: true })
+      .post("/auth/logout", {})
       .then((res) => {
       })
       .catch((err) => {
