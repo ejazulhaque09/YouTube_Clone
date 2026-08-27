@@ -87,8 +87,8 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
           to={"/"}
           className="flex items-center gap-2 text-black no-underline"
         >
-          <YouTubeIcon sx={{ fontSize: "34px" }} className="text-red-500" />
-          <div className="hidden sm:block text-xl font-semibold font-sans">Youtube</div>
+          <YouTubeIcon sx={{ fontSize: "34px", color: "#1976d2" }} />
+          <div className="hidden sm:block text-xl font-semibold font-sans text-blue-700">CorpTube</div>
         </Link>
       </div>
 
@@ -110,11 +110,13 @@ const Navbar = ({ setSideNavbarFunc, sideNavbar, setSearch }) => {
         </div>
       </div>
       <div className="right flex gap-3 sm:gap-5 items-center relative">
-        <Link to={`/${userId}/upload`}>
-          <VideoCallIcon
-            sx={{ fontSize: "30px", cursor: "pointer", color: "black" }}
-          />
-        </Link>
+        {user?.role === 'admin' && (
+          <Link to={`/${userId}/upload`}>
+            <VideoCallIcon
+              sx={{ fontSize: "30px", cursor: "pointer", color: "black" }}
+            />
+          </Link>
+        )}
         <Notification
           sx={{ fontSize: "30px", cursor: "pointer", color: "black" }}
         />

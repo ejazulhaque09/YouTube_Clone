@@ -16,13 +16,17 @@ export const UserProvider = ({ children }) => {
         const storedUserId = localStorage.getItem('userId');
         const storedProfilePic = localStorage.getItem('profilePic');
         const storedEmail = localStorage.getItem('email'); // if needed
+        const storedRole = localStorage.getItem('role');
+        const storedDepartment = localStorage.getItem('department');
         const token = Cookies.get('token');
 
         if (token && storedUserId) {
             setUser({
                 userId: storedUserId,
                 profilePic: storedProfilePic,
-                email: storedEmail
+                email: storedEmail,
+                role: storedRole || 'employee',
+                department: storedDepartment || 'General'
             });
             setIsLoggedIn(true);
         } else {
@@ -30,6 +34,8 @@ export const UserProvider = ({ children }) => {
             Cookies.remove('token');
             localStorage.removeItem('userId');
             localStorage.removeItem('profilePic');
+            localStorage.removeItem('role');
+            localStorage.removeItem('department');
         }
     }, []);
 
@@ -38,7 +44,9 @@ export const UserProvider = ({ children }) => {
         setUser({
             userId: userData._id,
             profilePic: userData.profilePic,
-            email: userData.email
+            email: userData.email,
+            role: userData.role || 'employee',
+            department: userData.department || 'General'
         });
         setIsLoggedIn(true);
 
@@ -49,6 +57,8 @@ export const UserProvider = ({ children }) => {
         localStorage.setItem('userId', userData._id);
         if (userData.profilePic) localStorage.setItem('profilePic', userData.profilePic);
         if (userData.email) localStorage.setItem('email', userData.email);
+        localStorage.setItem('role', userData.role || 'employee');
+        localStorage.setItem('department', userData.department || 'General');
     };
 
     const logoutUser = () => {

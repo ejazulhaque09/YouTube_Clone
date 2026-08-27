@@ -26,7 +26,7 @@ const SideNavbar = ({sideNavbar}) => {
                 </div>
                 <div className={`flex items-center gap-5 p-2 rounded-lg cursor-pointer hover:bg-gray-300`}>
                     <SubscriptionsIcon/>
-                    <div className="text-sm font-medium">Subscription</div>
+                    <div className="text-sm font-medium">Departments</div>
                 </div>
             </div>
             <div className="flex flex-col border-b border-gray-600 py-2">
@@ -36,7 +36,7 @@ const SideNavbar = ({sideNavbar}) => {
                 </div>
                 <div className={`flex items-center gap-5 p-2.5 rounded-lg cursor-pointer hover:bg-gray-300`}>
                     <RecentActorsIcon/>
-                    <div className="text-sm font-medium">Your Channel</div>
+                    <div className="text-sm font-medium">Your Profile</div>
                 </div>
                 <div className={`flex items-center gap-5 p-2.5 rounded-lg cursor-pointer hover:bg-gray-300`}>
                     <HistoryIcon/>
@@ -67,7 +67,7 @@ const SideNavbar = ({sideNavbar}) => {
             <div className="home_sideNavbarMiddle">
                 <div className="flex items-center gap-5 p-2 rounded-lg cursor-pointer hover:bg-gray-300">
                     <div className="font-semibold">
-                        Subscription
+                        Mandatory Training
                     </div>
                 </div>
                 {/* Change this */}

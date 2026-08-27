@@ -6,6 +6,7 @@ import Video from './pages/Video'
 import VideoUpload from './pages/VideoUpload'
 import Profile from './pages/Profile'
 import Signup from './pages/Signup'
+import ProtectedRoute from './components/ProtectedRoute'
 
 import { useState } from 'react'
 
@@ -22,12 +23,32 @@ function App() {
       <Navbar setSideNavbarFunc = {setSideNavbarfun} sideNavbar={sideNavbar} setSearch = {setSearch} />
       <Routes>
         {/* Routes to define the application navigation */}
-        <Route path='/' element={<Home sideNavbar={sideNavbar} search = {search} />}/>
-        <Route path='/watch/:id' element={<Video sideNavbar={sideNavbar}/>}/>
-        <Route path='/user/:id' element={<Profile sideNavbar={sideNavbar}/>}/>
-        <Route path='/:id/upload' element={<VideoUpload/>}/>
-        <Route path='/:videoId/edit' element={<VideoUpload/>}/>
-        <Route path='signup/' element={<Signup/>}/>
+        <Route path='/' element={
+          <ProtectedRoute>
+            <Home sideNavbar={sideNavbar} search={search} />
+          </ProtectedRoute>
+        } />
+        <Route path='/watch/:id' element={
+          <ProtectedRoute>
+            <Video sideNavbar={sideNavbar} />
+          </ProtectedRoute>
+        } />
+        <Route path='/user/:id' element={
+          <ProtectedRoute>
+            <Profile sideNavbar={sideNavbar} />
+          </ProtectedRoute>
+        } />
+        <Route path='/:id/upload' element={
+          <ProtectedRoute adminOnly={true}>
+            <VideoUpload />
+          </ProtectedRoute>
+        } />
+        <Route path='/:videoId/edit' element={
+          <ProtectedRoute adminOnly={true}>
+            <VideoUpload />
+          </ProtectedRoute>
+        } />
+        <Route path='/signup' element={<Signup />} />
       </Routes>
     </div>
   )

@@ -37,14 +37,13 @@ const Homepage = ({ sideNavbar, search }) => {
 },[selectedCategory, data, search])   
   const options = [
     "All",
-    "Data Structures",
-    "Algorithms",
-    "Podcasts",
-    "Study Skills",
-    "Quantum",
-    "Software Engineering",
-    "Gaming",
-    "Programming",
+    "Onboarding",
+    "Compliance",
+    "Engineering",
+    "Marketing",
+    "HR",
+    "Sales",
+    "Leadership",
   ];
   return (
     <div
